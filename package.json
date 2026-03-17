@@ -6,7 +6,7 @@
   "scripts": {
     "install:deps": "npm install && npx playwright install",
     "test:headed": "npx playwright test --headed",
-    "test": "cucumber-js test/features/*.feature",
+    "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' cucumber-js",
     "test:report": "cucumber-js -f html:cucumber-report.html"
   },
   "repository": {
