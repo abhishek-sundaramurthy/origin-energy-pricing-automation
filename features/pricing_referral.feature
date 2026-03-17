@@ -9,6 +9,7 @@ Feature: Origin Energy Pricing and Referral Flow
 
   Scenario: Verify gas plan display and external referral hand-off
     When I search for the address "12 Smith Street, Surry Hills, NSW 2010"
+    And I validate whether plan list is displayed
     And I uncheck the "Electricity" filter
     Then I should see that Gas plans are still displayed
     When I click on a plan link to view details

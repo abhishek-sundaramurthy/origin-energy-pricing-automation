@@ -4,18 +4,25 @@ export class PricingPage {
     readonly page: Page;
     readonly addressInput: Locator;
     readonly addressSuggestion: Locator;
+    readonly planTable: Locator;
+    readonly gasEnergyType: Locator;
+    readonly electricityEnergyType: Locator;
     readonly electricityFilter: Locator;
-    readonly gasLabel: Locator;
     readonly planLink: Locator;
+    readonly attach: any;
 
-    constructor(page: Page) {
+    constructor(page: Page,attach : any) {
         this.page = page;
-        this.addressInput = page.getByRole('textbox', { name: /enter address/i });
-        this.addressSuggestion = page.getByText('12 Smith Street, Surry Hills NSW 2010');
+        this.attach = attach;
+        this.addressInput = page.getByRole('combobox', { name: /Your address/i });
+        this.addressSuggestion = page.getByRole('option', { name: '12 Smith Street, Surry Hills NSW 2010', exact: false });
+        this.planTable = page.locator('table[data-id="plan-info-table-desktop"]');
         // Using accessible roles for the filter checkbox
         this.electricityFilter = page.getByRole('checkbox', { name: /electricity/i });
-        this.gasLabel = page.getByText(/gas plans/i);
+        this.gasEnergyType = page.locator('td[valign]').filter({ hasText: 'Natural gas' });
+        this.electricityEnergyType = page.locator('td[valign]').filter({ hasText: 'Electricity' });
         this.planLink = page.getByRole('link', { name: /view plan|compare/i }).first();
+
     }
 
     async navigate() {
@@ -23,14 +30,72 @@ export class PricingPage {
     }
 
     async searchAddress(address: string) {
-        await this.addressInput.fill(address);
-        await this.addressSuggestion.waitFor({ state: 'visible' });
-        await this.addressSuggestion.click();
+        try{
+            await this.addressInput.fill(address);
+            await this.addressSuggestion.waitFor({ state: 'visible' });
+            await this.addressSuggestion.click();
+            await this.attach("Address is successfully entered and search action is performed")
+        }
+        catch(error){
+            await this.attach('❌ FAILURE: Given Address is not searched successfully');
+            // Take a screenshot directly from the Page Object
+            const screenshot = await this.page.screenshot();
+            await this.attach(screenshot, 'image/png');
+            throw error;
+        }
+
+
+    }
+
+    async validatePlanList() {
+        try{
+            await expect(this.planTable).toBeVisible();
+            await this.attach("Table with List of Plans for different energy type is displayed successfully")
+        }
+        catch(error){
+            await this.attach('❌ FAILURE: Table with List of Plans for different energy type is not displayed');
+            // Take a screenshot directly from the Page Object
+            const screenshot = await this.page.screenshot();
+            await this.attach(screenshot, 'image/png');
+            throw error;
+        }
+
     }
 
     async uncheckElectricity() {
         if (await this.electricityFilter.isChecked()) {
-            await this.electricityFilter.uncheck();
+            try{
+                await this.electricityFilter.uncheck();
+                await this.attach("Electricity Check Box is unchecked")
+            }
+            catch(error){
+                await this.attach('❌ FAILURE: Something went wrong when unchecking the electricity checkbox');
+                // Take a screenshot directly from the Page Object
+                const screenshot = await this.page.screenshot();
+                await this.attach(screenshot, 'image/png');
+                throw error;
+            }
+
         }
+    }
+
+    async checkGasEnergyType(){
+        try{
+            await expect(this.planTable).toBeVisible();
+            //Verify that the list of gas energy type is not empty
+            expect(await (this.gasEnergyType).count()).toBeGreaterThan(0);
+            await this.attach("Energy Type of Natural Gas is present in the table as expected")
+            //verify that the table list of electricty energy type is empty
+            expect(await (this.electricityEnergyType).count()).toBe(0);
+            await this.attach("Energy Type of Electricity is not present in the table as expected")
+        }
+        catch(error){
+            await this.attach('❌ FAILURE: Energy Type of Natural Gas were not found or Energy Type of Electricity is present');
+            // Take a screenshot directly from the Page Object
+            const screenshot = await this.page.screenshot();
+            await this.attach(screenshot, 'image/png');
+            throw error;
+        }
+
     }
 }

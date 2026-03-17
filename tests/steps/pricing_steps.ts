@@ -5,12 +5,17 @@ import { ExternalPage } from '../../pages/external.page';
 
 // Note: In a real setup, 'page' and 'context' are provided by a World Constructor or Hooks
 Given('I navigate to the Origin Energy pricing page', async function () {
-    this.pricingPage = new PricingPage(this.page);
+    this.pricingPage = new PricingPage(this.page,this.attach);
     await this.pricingPage.navigate();
 });
 
 When('I search for the address {string}', async function (address: string) {
     await this.pricingPage.searchAddress(address);
+});
+
+When('I validate whether plan list is displayed', async function () {
+    await this.pricingPage.validatePlanList();
+    console.log("Plan List is present")
 });
 
 When('I uncheck the {string} filter', async function (service: string) {
@@ -19,7 +24,7 @@ When('I uncheck the {string} filter', async function (service: string) {
 });
 
 Then('I should see that Gas plans are still displayed', async function () {
-    await expect(this.pricingPage.gasLabel).toBeVisible();
+    await this.pricingPage.checkGasEnergyType();
 });
 
 When('I click on a plan link to view details', async function () {

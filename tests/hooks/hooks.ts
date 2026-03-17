@@ -8,7 +8,7 @@ let browser: Browser;
 
 Before(async function () {
     // Requirement 4: Resilience - Start a fresh browser for every test
-    browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: false });
     this.context = await browser.newContext();
     this.page = await this.context.newPage();
 });
