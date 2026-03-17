@@ -1,0 +1,30 @@
+{
+  "name": "origin-energy-pricing-automation",
+  "version": "1.0.0",
+  "description": "To handle asynchronous UI behaviour, multi-tab navigation, and network interception.",
+  "main": "index.js",
+  "scripts": {
+    "install:deps": "npm install && npx playwright install",
+    "test:headed": "npx playwright test --headed",
+    "test": "cucumber-js test/features/*.feature",
+    "test:report": "cucumber-js -f html:cucumber-report.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhishek-sundaramurthy/origin-energy-pricing-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/abhishek-sundaramurthy/origin-energy-pricing-automation/issues"
+  },
+  "homepage": "https://github.com/abhishek-sundaramurthy/origin-energy-pricing-automation#readme",
+  "devDependencies": {
+    "@cucumber/cucumber": "^12.7.0",
+    "@playwright/test": "^1.58.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
