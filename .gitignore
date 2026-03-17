@@ -1,6 +1,22 @@
+# Dependencies
 node_modules/
+
+# IDE Settings
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+._*
+Thumbs.db
+
+# Test Reports & Artifacts
 test-results/
 cucumber-report.html
 results/
-.DS_Store
-.idea/
+playwright-report/
+blob-report/
+videos/
+screenshots/
