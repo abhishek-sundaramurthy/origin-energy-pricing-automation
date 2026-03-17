@@ -23,15 +23,13 @@ When('I uncheck the {string} filter', async function (service: string) {
     await this.pricingPage.uncheckElectricity();
 });
 
-Then('I should see that Gas plans are still displayed', async function () {
+When('I should see that Gas plans are still displayed', async function () {
     await this.pricingPage.checkGasEnergyType();
 });
 
-When('I click on a plan link to view details', async function () {
+Then('I click on a plan link to view details', async function () {
     // Start listening for the popup/new tab
-    const pagePromise = this.context.waitForEvent('page');
-    await this.pricingPage.planLink.click();
-    this.externalTab = await pagePromise;
+    await this.pricingPage.clickFirstPlanLinkAndVerifyHandOff();
 });
 
 Then('a new tab should open for {string}', async function (siteName: string) {

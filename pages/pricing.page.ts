@@ -98,4 +98,49 @@ export class PricingPage {
         }
 
     }
+
+    // pages/pricing.page.ts
+
+    async clickFirstPlanLinkAndVerifyHandOff(rowIndex: 2) {
+        const linkAnchor = this.page.locator('a[data-id*="energy-fact-sheet"]').first();
+
+        try {
+            this.attach('--- REFERRAL HAND-OFF START ---');
+            // 2. Ensure the link is ready
+            await linkAnchor.scrollIntoViewIfNeeded();
+            // 2. Set up listener for a new tab (common for referral links)
+            const [newPage] = await Promise.all([
+                this.page.context().waitForEvent('page', { timeout: 45000 }), // Increased timeout
+                linkAnchor.click({ force: true }),
+            ]);
+
+            // 3. Verify the Referral Hand-off (Checking the URL)
+            await newPage.waitForLoadState('domcontentloaded');
+            const url = newPage.url();
+
+            // Example verification: check if URL contains a referral ID or 'origin'
+            if (url.includes('energymadeeasy.gov.au') && url.includes('Origin')) {
+
+
+                // 2. Define the Logo Locator on the NEW page
+                // (Assuming the logo has an alt text or a specific class/id)
+                const logo = newPage.locator('img[src*="068a3484995b2d5a09c0708a68051c14"]');
+
+
+                // 3. Explicitly wait for the logo to be visible
+                // This is Playwright's version of an implicit wait but much more reliable.
+                await expect(logo).toBeVisible({ timeout: 20000 });
+                await this.attach(`[VALIDATION] Link: Clicked | Hand-off URL: ${url} | Status: Verified ✅`);
+
+            } else {
+                throw new Error(`Unexpected Hand-off URL: ${url}`);
+            }
+
+
+
+        } catch (error) {
+            await this.attach(`[VALIDATION] Link: Clicked | Status: FAILED | Error: ${error} ❌`);
+            throw error;
+        }
+    }
 }
