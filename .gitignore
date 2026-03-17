@@ -3,3 +3,4 @@ test-results/
 cucumber-report.html
 results/
 .DS_Store
+.idea/
