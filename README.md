@@ -14,7 +14,7 @@ origin-energy-pricing-automation/
 ├── features/
 │   └── pricing_referral.feature   # Business-readable test scenarios (Gherkin)
 ├── pages/
-│   ├── pricing.page.ts            # Page Object: Origin Pricing UI logic
+│   ├── pricingPage.ts            # Page Object: Origin Pricing UI logic
 │   └── external.page.ts           # Page Object: External Government site logic
 ├── tests/
 │   ├── steps/

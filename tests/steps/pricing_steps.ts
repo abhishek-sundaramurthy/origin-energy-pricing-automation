@@ -1,6 +1,6 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { PricingPage } from '../../pages/pricing.page';
+import { PricingPage } from '../../pages/pricingPage';
 import { ExternalPage } from '../../pages/external.page';
 
 // Note: In a real setup, 'page' and 'context' are provided by a World Constructor or Hooks

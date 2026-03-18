@@ -103,7 +103,7 @@ export class PricingPage {
 
     }
 
-    // pages/pricing.page.ts
+    // pages/pricingPage.ts
 
     async clickFirstPlanLinkAndVerifyHandOff(rowIndex: 2) {
         const linkAnchor = this.page.locator('a[data-id*="energy-fact-sheet"]').first();

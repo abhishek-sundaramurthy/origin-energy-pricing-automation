@@ -7,7 +7,10 @@
     "install:deps": "npm install && npx playwright install",
     "test:headed": "npx playwright test --headed",
     "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' cucumber-js",
-    "test:report": "cucumber-js -f html:cucumber-report.html"
+    "test:report": "cucumber-js -f html:cucumber-report.html",
+    "test:test": "export ENV=test && npx cucumber-js",
+    "test:prod": "export ENV=prod && npx cucumber-js",
+    "test:dev": "export ENV=dev && npx cucumber-js"
   },
   "repository": {
     "type": "git",

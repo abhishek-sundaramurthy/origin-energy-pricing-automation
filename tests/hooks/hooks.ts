@@ -1,5 +1,6 @@
 import {Before, After, Status, setDefaultTimeout} from '@cucumber/cucumber';
 import { chromium, Browser, BrowserContext, Page } from '@playwright/test';
+import {ENV_SETTINGS} from "../../helpers/env_helper";
 
 // Set global timeout to 30 seconds for all steps
 setDefaultTimeout(30000);
