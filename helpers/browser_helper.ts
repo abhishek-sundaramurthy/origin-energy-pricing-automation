@@ -1,5 +1,5 @@
 import { LaunchOptions, chromium, firefox, webkit } from "@playwright/test";
-import {ENV_SETTINGS} from "./env_helper";
+import {ENV_SETTINGS} from "./config_env";
 
 const head : boolean = ENV_SETTINGS.isHeadless === 'false';
 const options: LaunchOptions = {

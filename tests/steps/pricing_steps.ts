@@ -2,15 +2,18 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { PricingPage } from '../../pages/pricingPage';
 import { ExternalPage } from '../../pages/external.page';
+import {ENV_SETTINGS} from "../../helpers/config_env";
+import {loadTestData} from "../../helpers/testdata_helper";
 
 // Note: In a real setup, 'page' and 'context' are provided by a World Constructor or Hooks
 Given('I navigate to the Origin Energy pricing page', async function () {
-    this.pricingPage = new PricingPage(this.page,this.attach);
-    await this.pricingPage.navigate();
+
+    //this.pricingPage = new PricingPage(this.page,this.attach,this.testData.pricingPage);
+    await this.pricingPage.navigate(ENV_SETTINGS.baseUrl);
 });
 
-When('I search for the address {string}', async function (address: string) {
-    await this.pricingPage.searchAddress(address);
+When('user enters the address and selects the address from the dropdown', async function () {
+    await this.pricingPage.searchAddress(loadTestData().pricingPage.addressValue);
 });
 
 When('I validate whether plan list is displayed', async function () {

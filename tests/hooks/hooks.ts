@@ -1,17 +1,24 @@
 import {Before, After, Status, setDefaultTimeout} from '@cucumber/cucumber';
 import { chromium, Browser, BrowserContext, Page } from '@playwright/test';
-import {ENV_SETTINGS} from "../../helpers/env_helper";
+import {ENV_SETTINGS} from "../../helpers/config_env";
+import {loadTestData} from "../../helpers/testdata_helper";
+import {invokeBrowser} from "../../helpers/browser_helper";
+import {PricingPage} from "../../pages/pricingPage";
 
-// Set global timeout to 30 seconds for all steps
-setDefaultTimeout(30000);
-
-let browser: Browser;
+let testData;
+let browser:Browser;
 
 Before(async function () {
     // Requirement 4: Resilience - Start a fresh browser for every test
-    browser = await chromium.launch({ headless: false });
+    browser = await invokeBrowser()
     this.context = await browser.newContext();
+    testData = loadTestData();
     this.page = await this.context.newPage();
+    this.pricingPage = new PricingPage(
+        this.page,
+        this.attach,
+        testData.pricingPage
+    );
 });
 
 After(async function (scenario) {

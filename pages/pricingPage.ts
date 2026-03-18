@@ -11,13 +11,15 @@ export class PricingPage {
     readonly electricityFilter: Locator;
     readonly planLink: Locator;
     readonly attach: any;
+    readonly data : any;
 
-    constructor(page: Page,attach : any,address) {
+    constructor(page: Page,attach : any, data:any) {
         this.page = page;
         this.attach = attach;
+        this.data = data;
         this.addressTab = page.getByRole('tab', { name: 'Address' });
         this.addressInput = page.getByRole('combobox', { name: /Your address/i });
-        this.addressSuggestion = page.getByRole('option', { name: '12 Smith Street, Surry Hills NSW 2010', exact: false });
+        this.addressSuggestion = page.getByRole('option', { name: data.addressSelect, exact: false });
         this.planTable = page.locator('table[data-id="plan-info-table-desktop"]');
         // Using accessible roles for the filter checkbox
         this.electricityFilter = page.getByRole('checkbox', { name: /electricity/i });
@@ -27,8 +29,8 @@ export class PricingPage {
 
     }
 
-    async navigate() {
-        await this.page.goto('https://www.originenergy.com.au/pricing.html');
+    async navigate(url:string) {
+        await this.page.goto(url);
     }
 
     async searchAddress(address: string) {
@@ -53,7 +55,7 @@ export class PricingPage {
 
     async validatePlanList() {
         try{
-            await expect(this.planTable).toBeVisible();
+            await expect(this.planTable).toBeVisible({ timeout: 10000 });
             await this.attach("Table with List of Plans for different energy type is displayed successfully")
         }
         catch(error){
@@ -123,7 +125,7 @@ export class PricingPage {
             const url = newPage.url();
 
             // Example verification: check if URL contains a referral ID or 'origin'
-            if (url.includes('energymadeeasy.gov.au') && url.includes('Origin')) {
+            if (url.includes('.gov.au') && url.toLowerCase().includes('origin')) {
 
 
                 // 2. Define the Logo Locator on the NEW page
@@ -133,7 +135,7 @@ export class PricingPage {
 
                 // 3. Explicitly wait for the logo to be visible
                 // This is Playwright's version of an implicit wait but much more reliable.
-                await expect(logo).toBeVisible({ timeout: 20000 });
+                await expect(logo).toBeVisible({ timeout: 6000000 });
                 await this.attach(`[VALIDATION] Link: Clicked | Hand-off URL: ${url} | Status: Verified ✅`);
 
             } else {

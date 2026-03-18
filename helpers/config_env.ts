@@ -10,19 +10,19 @@ export interface EnvConfig {
 // 2. Define the settings for each environment
 const config: Record<string, EnvConfig> = {
     test: {
-        baseUrl: 'https://test.originenergy.com.au',
+        baseUrl: 'https://www.originenergy.com.au/pricing.html',
         timeout: 30000,
         browser: "chrome",
         isHeadless: "true",
     },
     dev: {
-        baseUrl: 'https://www.originenergy.com.au',
+        baseUrl: 'https://www.originenergy.com.au/pricing.html',
         timeout: 60000,
         browser: "chrome",
         isHeadless: "true",
     },
     prod: {
-        baseUrl: 'https://www.originenergy.com.au',
+        baseUrl: 'https://www.originenergy.com.au/pricing.html',
         timeout: 60000,
         browser: "chrome",
         isHeadless: "true",
