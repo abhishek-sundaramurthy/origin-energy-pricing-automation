@@ -1,7 +1,8 @@
 {
     "pricingPage":{
         "addressValue": "12 Smith Street, Surry Hills, NSW 2010 (Sydney)",
-        "addressSelect": "12 Smith Street, Surry Hills NSW 2010"
+        "addressSelect": "12 Smith Street, Surry Hills NSW 2010",
+        "planListApiUrl": "**/**"
 
     }
 }

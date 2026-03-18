@@ -9,6 +9,7 @@ interface TestData {
 interface pricingPage {
     addressValue: string;
     addressSelect: string;
+    planListApiUrl: string;
 }
 
 export const loadTestData = (): TestData => {

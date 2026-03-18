@@ -11,6 +11,7 @@ export class PricingPage {
     readonly electricityFilter: Locator;
     readonly gasFilter: Locator;
     readonly planLink: Locator;
+    readonly planTableUrl : Locator;
     readonly attach: any;
     readonly data : any;
 
@@ -22,12 +23,12 @@ export class PricingPage {
         this.addressInput = page.getByRole('combobox', { name: /Your address/i });
         this.addressSuggestion = page.getByRole('option', { name: data.addressSelect, exact: false });
         this.planTable = page.locator('table[data-id="plan-info-table-desktop"]');
-        // Using accessible roles for the filter checkbox
         this.gasFilter = page.getByRole('checkbox', { name: /Natural gas/i });
         this.electricityFilter = page.getByRole('checkbox', { name: /electricity/i });
         this.gasEnergyType = page.locator('td[valign]').filter({ hasText: 'Natural gas' });
         this.electricityEnergyType = page.locator('td[valign]').filter({ hasText: 'Electricity' });
         this.planLink = page.getByRole('link', { name: /view plan|compare/i }).first();
+        this.planTableUrl = page.getByRole('columnheader', { name: 'Plan BPID/EFS' });
 
     }
 
@@ -59,7 +60,6 @@ export class PricingPage {
         try{
             await expect(this.gasFilter).toBeChecked();
             await expect(this.electricityFilter).toBeChecked();
-            //await expect(this.planTable).toBeVisible({ timeout: 10000 });
             await this.planTable.waitFor();
             await expect(this.planTable).toBeVisible();
             await this.attach("Table with List of Plans for both Natural Gas and Electricity is displayed successfully")
@@ -111,7 +111,7 @@ export class PricingPage {
 
     }
 
-    async clickFirstGasPlanLink() {
+    async clickFirstGasPlanLinkAndValidateNetworkRedirect() {
         const requestPromise = this.page.waitForRequest(request =>
             request.url().includes('gov.au') && request.method() === 'GET'
         );
@@ -120,7 +120,7 @@ export class PricingPage {
         try {
             await linkAnchor.scrollIntoViewIfNeeded();
             const [newPage] = await Promise.all([
-                this.page.context().waitForEvent('page', { timeout: 450000 }), // Increased timeout
+                this.page.context().waitForEvent('page', { timeout: 45000 }), // Increased timeout
                 linkAnchor.click({ force: true }),
             ]);
             const request = await requestPromise;
@@ -146,5 +146,22 @@ export class PricingPage {
         // Check if Origin's referral ID is in the link
         expect(href?.toLowerCase()).toContain('origin');
         await this.attach("Selected Plan link have the domain values as expected");
+    }
+
+    async simulateApiError(apiurl:string){
+        await this.page.route(apiurl, async (route) => {
+            await route.fulfill({
+                status: 500,
+                contentType: 'application/json',
+                body: JSON.stringify({ error: "Internal Server Error", message: "Origin Backend is down" })
+            });
+        });
+        await this.attach("error: Internal Server Error \n message: Origin Backend is down ");
+    }
+
+    async checkPlanListNotAvailable() {
+            await expect(this.planTable).not.toBeVisible();
+            await this.attach("Table with List of Plans for both Natural Gas and Electricity is not displayed")
+
     }
 }

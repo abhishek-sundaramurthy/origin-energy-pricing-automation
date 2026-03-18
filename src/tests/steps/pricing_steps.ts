@@ -27,7 +27,7 @@ When('user should see that only Gas plans are still displayed', async function (
 });
 
 Then('user clicks on the first gas plan link displayed on the plan detail table', async function () {
-    this.newTab = await this.pricingPage.clickFirstGasPlanLink();
+    this.newTab = await this.pricingPage.clickFirstGasPlanLinkAndValidateNetworkRedirect();
 });
 
 Then('a new tab should be opened for EnergyMadeEasy', async function () {
@@ -53,4 +53,12 @@ Then('then user validates the origin logo in the new page', async function () {
     const energyMadeEasyPage = new EnergyMadeEasyPage(this.newTab, this.attach);
     await energyMadeEasyPage.performLogoValidationsOnNewTab()
     await energyMadeEasyPage.closeNewTab()
+});
+
+When('the server returns a error for the plan list request', async function () {
+    await this.pricingPage.simulateApiError(loadTestData().pricingPage.planListApiUrl);
+});
+
+Then('user should not be able to see any plan List', async function () {
+    await this.pricingPage.checkPlanListNotAvailable();
 });

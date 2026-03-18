@@ -18,3 +18,11 @@ Feature: Origin Energy Pricing and Referral Flow
     And then user validates the url for referral
     And then user validates the origin logo in the new page
 
+
+  Scenario: Verify NetworkMocking using the Plans Search API
+    When user enters the address and selects the address from the dropdown
+    And the server returns a error for the plan list request
+    Then user should not be able to see any plan List
+
+
+

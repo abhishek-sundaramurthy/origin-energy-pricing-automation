@@ -33,7 +33,7 @@ export class EnergyMadeEasyPage {
 
     async performLogoValidationsOnNewTab(){
         try{
-           await this.newTabLogo.waitFor({ timeout: 100000000 });
+           await this.newTabLogo.waitFor({ timeout: 1000000 });
            await expect(this.newTabLogo).toBeVisible();
            await this.originSourceLogo.waitFor();
            await expect(this.originSourceLogo).toBeVisible();
