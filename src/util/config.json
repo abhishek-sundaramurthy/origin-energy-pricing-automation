@@ -3,18 +3,18 @@
     "baseUrl": "https://www.originenergy.com.au/pricing.html",
     "timeout": 1000000,
     "browser": "chrome",
-    "isHeadless": "true"
+    "isHeadless": "false"
   },
   "dev": {
     "baseUrl": "https://www.originenergy.com.au/pricing.html",
     "timeout": 60000,
     "browser": "chrome",
-    "isHeadless": "true"
+    "isHeadless": "false"
   },
   "prod": {
     "baseUrl": "https://www.originenergy.com.au/pricing.html",
     "timeout": 60000,
     "browser": "chrome",
-    "isHeadless": "true"
+    "isHeadless": "false"
   }
 }

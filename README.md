@@ -34,6 +34,8 @@ Ensure you have Node.js (v18+) installed.
 Bash
 npm install
 npx playwright install chromium
+npx playwright install --with-deps
+
 3. Running Tests
 
 The suite is configured to run in headless mode by default for CI/CD compatibility.

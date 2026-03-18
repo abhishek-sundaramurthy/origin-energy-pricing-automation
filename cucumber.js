@@ -1,8 +1,8 @@
 module.exports = {
     default: {
-        paths: ['features/**/*.feature'],
+        paths: ['src/tests/features/**/*.feature'],
         requireModule: ['ts-node/register'],
-        require: ['tests/**/*.ts'],
+        require: ['src/tests/**/*.ts'],
         format: [
             "progress-bar", // Keep the console output
             "html:reports/cucumber-report.html", // Standard HTML for humans

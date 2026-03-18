@@ -1,7 +1,7 @@
 import { LaunchOptions, chromium, firefox, webkit } from "@playwright/test";
 import {ENV_SETTINGS} from "../util/config_env";
-
-const head : boolean = ENV_SETTINGS.isHeadless === 'false';
+// headless mode become true when the value in ENV_SETTINGS.isHeadless matches to the value passed below
+const head : boolean = ENV_SETTINGS.isHeadless === 'true';
 const options: LaunchOptions = {
     headless : head
 }

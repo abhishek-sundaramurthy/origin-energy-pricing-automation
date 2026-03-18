@@ -11,6 +11,7 @@ Before(async function () {
     // Requirement 4: Resilience - Start a fresh browser for every test
     browser = await invokeBrowser()
     this.context = await browser.newContext();
+
     testData = loadTestData();
     this.page = await this.context.newPage();
     this.pricingPage = new PricingPage(

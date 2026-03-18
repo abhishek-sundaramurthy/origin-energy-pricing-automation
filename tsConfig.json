@@ -13,5 +13,5 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["features/**/*.ts", "tests/**/*.ts", "pages/**/*.ts"]
+  "include": [ "src/tests/**/*.ts", "src/pages/**/*.ts"]
 }
