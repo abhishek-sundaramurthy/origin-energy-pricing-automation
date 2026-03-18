@@ -1,6 +1,5 @@
-import {Before, After, Status, setDefaultTimeout} from '@cucumber/cucumber';
-import { chromium, Browser, BrowserContext, Page } from '@playwright/test';
-import {ENV_SETTINGS} from "../../helpers/config_env";
+import {Before, After, Status} from '@cucumber/cucumber';
+import { Browser } from '@playwright/test';
 import {loadTestData} from "../../helpers/testdata_helper";
 import {invokeBrowser} from "../../helpers/browser_helper";
 import {PricingPage} from "../../pages/pricingPage";

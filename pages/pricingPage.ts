@@ -9,6 +9,7 @@ export class PricingPage {
     readonly gasEnergyType: Locator;
     readonly electricityEnergyType: Locator;
     readonly electricityFilter: Locator;
+    readonly gasFilter: Locator;
     readonly planLink: Locator;
     readonly attach: any;
     readonly data : any;
@@ -22,6 +23,7 @@ export class PricingPage {
         this.addressSuggestion = page.getByRole('option', { name: data.addressSelect, exact: false });
         this.planTable = page.locator('table[data-id="plan-info-table-desktop"]');
         // Using accessible roles for the filter checkbox
+        this.gasFilter = page.getByRole('checkbox', { name: /Natural gas/i });
         this.electricityFilter = page.getByRole('checkbox', { name: /electricity/i });
         this.gasEnergyType = page.locator('td[valign]').filter({ hasText: 'Natural gas' });
         this.electricityEnergyType = page.locator('td[valign]').filter({ hasText: 'Electricity' });
@@ -55,8 +57,10 @@ export class PricingPage {
 
     async validatePlanList() {
         try{
+            await expect(this.gasFilter).toBeChecked();
+            await expect(this.electricityFilter).toBeChecked();
             await expect(this.planTable).toBeVisible({ timeout: 10000 });
-            await this.attach("Table with List of Plans for different energy type is displayed successfully")
+            await this.attach("Table with List of Plans for both Natural Gas and Electricity is displayed successfully")
         }
         catch(error){
             await this.attach('❌ FAILURE: Table with List of Plans for different energy type is not displayed');
@@ -105,44 +109,19 @@ export class PricingPage {
 
     }
 
-    // pages/pricingPage.ts
-
-    async clickFirstPlanLinkAndVerifyHandOff(rowIndex: 2) {
+    async clickFirstGasPlanLink() {
         const linkAnchor = this.page.locator('a[data-id*="energy-fact-sheet"]').first();
 
         try {
-            this.attach('--- REFERRAL HAND-OFF START ---');
-            // 2. Ensure the link is ready
             await linkAnchor.scrollIntoViewIfNeeded();
-            // 2. Set up listener for a new tab (common for referral links)
             const [newPage] = await Promise.all([
-                this.page.context().waitForEvent('page', { timeout: 45000 }), // Increased timeout
+                this.page.context().waitForEvent('page', { timeout: 450000 }), // Increased timeout
                 linkAnchor.click({ force: true }),
             ]);
-
-            // 3. Verify the Referral Hand-off (Checking the URL)
             await newPage.waitForLoadState('domcontentloaded');
-            const url = newPage.url();
+            await this.attach(`First Gas Link displayed on the table is clicked successfully`);
 
-            // Example verification: check if URL contains a referral ID or 'origin'
-            if (url.includes('.gov.au') && url.toLowerCase().includes('origin')) {
-
-
-                // 2. Define the Logo Locator on the NEW page
-                // (Assuming the logo has an alt text or a specific class/id)
-                const logo = newPage.locator('img[src*="068a3484995b2d5a09c0708a68051c14"]');
-
-
-                // 3. Explicitly wait for the logo to be visible
-                // This is Playwright's version of an implicit wait but much more reliable.
-                await expect(logo).toBeVisible({ timeout: 6000000 });
-                await this.attach(`[VALIDATION] Link: Clicked | Hand-off URL: ${url} | Status: Verified ✅`);
-
-            } else {
-                throw new Error(`Unexpected Hand-off URL: ${url}`);
-            }
-
-
+            return newPage;
 
         } catch (error) {
             await this.attach(`[VALIDATION] Link: Clicked | Status: FAILED | Error: ${error} ❌`);

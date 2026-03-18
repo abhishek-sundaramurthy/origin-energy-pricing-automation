@@ -5,14 +5,15 @@ Feature: Origin Energy Pricing and Referral Flow
   So that I can be referred to official comparison sites if needed
 
   Background:
-    Given I navigate to the Origin Energy pricing page
+    Given user navigates to the Origin Energy pricing page
 
-  Scenario: Verify gas plan display and external referral hand-off
+  Scenario: Verify the first gas plan link displayed and validate the external referral hand-off
     When user enters the address and selects the address from the dropdown
-    And I validate whether plan list is displayed
-    And I uncheck the "Electricity" filter
-    And I should see that Gas plans are still displayed
-    Then I click on a plan link to view details
-    And a new tab should open for "EnergyMadeEasy"
-    And the page should display Origin Energy branding
-    And the URL should contain "originenergy" as a referral parameter
+    And user validates whether the plan list is displayed with both Electricity and Natural Gas checked
+    And user unchecks the Electricity checkbox
+    And user should see that only Gas plans are still displayed
+    Then user clicks on the first gas plan link displayed on the plan detail table
+    And a new tab should be opened for EnergyMadeEasy
+    And then user validates the url for referral
+    And then user validates the origin logo in the new page
+

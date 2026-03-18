@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {currentEnv} from "./config_env";
+import {currentEnv} from "../util/config_env";
 
 // Define an interface for your test data
 interface TestData {
