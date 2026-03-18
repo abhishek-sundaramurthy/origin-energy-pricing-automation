@@ -14,7 +14,7 @@ Thumbs.db
 
 # Test Reports & Artifacts
 test-results/
-cucumber-report.html
+reports/
 results/
 playwright-report/
 blob-report/

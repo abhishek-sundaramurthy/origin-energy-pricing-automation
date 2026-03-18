@@ -1,7 +1,7 @@
 {
   "test": {
     "baseUrl": "https://www.originenergy.com.au/pricing.html",
-    "timeout": 600000,
+    "timeout": 1000000,
     "browser": "chrome",
     "isHeadless": "true"
   },

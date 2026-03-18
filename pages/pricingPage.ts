@@ -59,7 +59,9 @@ export class PricingPage {
         try{
             await expect(this.gasFilter).toBeChecked();
             await expect(this.electricityFilter).toBeChecked();
-            await expect(this.planTable).toBeVisible({ timeout: 10000 });
+            //await expect(this.planTable).toBeVisible({ timeout: 10000 });
+            await this.planTable.waitFor();
+            await expect(this.planTable).toBeVisible();
             await this.attach("Table with List of Plans for both Natural Gas and Electricity is displayed successfully")
         }
         catch(error){
@@ -94,10 +96,10 @@ export class PricingPage {
             await expect(this.planTable).toBeVisible();
             //Verify that the list of gas energy type is not empty
             expect(await (this.gasEnergyType).count()).toBeGreaterThan(0);
-            await this.attach("Energy Type of Natural Gas is present in the table as expected")
+
             //verify that the table list of electricty energy type is empty
             expect(await (this.electricityEnergyType).count()).toBe(0);
-            await this.attach("Energy Type of Electricity is not present in the table as expected")
+            await this.attach("Energy Type of Natural Gas is present in the table as expected\n Energy Type of Electricity is not present in the table as expected")
         }
         catch(error){
             await this.attach('❌ FAILURE: Energy Type of Natural Gas were not found or Energy Type of Electricity is present');
@@ -110,6 +112,9 @@ export class PricingPage {
     }
 
     async clickFirstGasPlanLink() {
+        const requestPromise = this.page.waitForRequest(request =>
+            request.url().includes('gov.au') && request.method() === 'GET'
+        );
         const linkAnchor = this.page.locator('a[data-id*="energy-fact-sheet"]').first();
 
         try {
@@ -118,8 +123,11 @@ export class PricingPage {
                 this.page.context().waitForEvent('page', { timeout: 450000 }), // Increased timeout
                 linkAnchor.click({ force: true }),
             ]);
+            const request = await requestPromise;
+            console.log(`Intercepted Request to: ${request.url()}`);
+            expect(request.url()).toContain('origin');
             await newPage.waitForLoadState('domcontentloaded');
-            await this.attach(`First Gas Link displayed on the table is clicked successfully`);
+            await this.attach(`First Gas Link displayed on the table is clicked successfully\n Network Redirect is checked to see whether it contains origin text value`);
 
             return newPage;
 
@@ -127,5 +135,16 @@ export class PricingPage {
             await this.attach(`[VALIDATION] Link: Clicked | Status: FAILED | Error: ${error} ❌`);
             throw error;
         }
+    }
+
+    async verifyLinkDestination() {
+        const link = this.page.locator('a[data-id*="energy-fact-sheet"]').first();
+        const href = await link.getAttribute('href');
+
+        // Check if the domain is correct
+        expect(href?.toLowerCase()).toContain('energymadeeasy.gov.au');
+        // Check if Origin's referral ID is in the link
+        expect(href?.toLowerCase()).toContain('origin');
+        await this.attach("Selected Plan link have the domain values as expected");
     }
 }

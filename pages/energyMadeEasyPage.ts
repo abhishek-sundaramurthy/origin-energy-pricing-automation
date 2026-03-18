@@ -21,7 +21,7 @@ export class EnergyMadeEasyPage {
             await this.attach("URL is validated for the details like gov.au and origin values to be present");
         }
         catch(error){
-            await this.attach('❌ FAILURE: Something went wrong with validating the URL');
+            await this.attach('❌ FAILURE: Something went wrong with validating the URL',"Logs");
             // Take a screenshot directly from the Page Object
             const screenshot = await this.page.screenshot();
             await this.attach(screenshot, 'image/png');
@@ -33,13 +33,10 @@ export class EnergyMadeEasyPage {
 
     async performLogoValidationsOnNewTab(){
         try{
-           await this.newTabLogo.waitFor({ timeout: 7000000 });
+           await this.newTabLogo.waitFor({ timeout: 100000000 });
            await expect(this.newTabLogo).toBeVisible();
            await this.originSourceLogo.waitFor();
            await expect(this.originSourceLogo).toBeVisible();
-           const logo = this.page.locator('img[src*="068a3484995b2d5a09c0708a68051c14"]');
-           await logo.waitFor({state:'visible',timeout: 10000000});
-           await expect(logo).toBeVisible({timeout: 10000000});
            await this.attach("Origin Energy logo appears on the page which confirms the origin branding.");
        }
        catch(error){

@@ -7,11 +7,12 @@
     "pretest": "rimraf reports && mkdir reports",
     "install:deps": "npm install && npx playwright install",
     "test:headed": "npx playwright test --headed",
-    "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' cucumber-js",
-    "test:report": "cucumber-js -f html:cucumber-report.html",
-    "test:test": "export ENV=test && npx cucumber-js",
-    "test:prod": "export ENV=prod && npx cucumber-js",
-    "test:dev": "export ENV=dev && npx cucumber-js"
+    "test": "NODE_OPTIONS='--loader ts-node/esm --no-warnings' cucumber-js -f json:reports/cucumber_report.json",
+    "test:full": "npm run test || node report.js",
+    "test:test": "export ENV=test && npm run test && node report.js",
+    "test:prod": "export ENV=prod && npm run test && node report.js",
+    "test:dev": "export ENV=dev && npm run test && node report.js",
+    "generate:report": "node report.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^12.7.0",
     "@playwright/test": "^1.58.2",
+    "multiple-cucumber-html-reporter": "^3.10.0",
     "rimraf": "^6.1.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

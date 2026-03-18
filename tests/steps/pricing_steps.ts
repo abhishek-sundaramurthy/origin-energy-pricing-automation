@@ -1,12 +1,11 @@
-import { Given, When, Then } from '@cucumber/cucumber';
+import { Given, When, Then,setDefaultTimeout } from '@cucumber/cucumber';
 import { EnergyMadeEasyPage} from "../../pages/energyMadeEasyPage";
 import {ENV_SETTINGS} from "../../util/config_env";
 import {loadTestData} from "../../helpers/testdata_helper";
 
-// Note: In a real setup, 'page' and 'context' are provided by a World Constructor or Hooks
-Given('user navigates to the Origin Energy pricing page', async function () {
+setDefaultTimeout(60 * 1000 * 2)
 
-    //this.pricingPage = new PricingPage(this.page,this.attach,this.testData.pricingPage);
+Given('user navigates to the Origin Energy pricing page', async function () {
     await this.pricingPage.navigate(ENV_SETTINGS.baseUrl);
 });
 
@@ -44,6 +43,10 @@ Then('a new tab should be opened for EnergyMadeEasy', async function () {
 Then('then user validates the url for referral', async function () {
     const energyMadeEasyPage = new EnergyMadeEasyPage(this.newTab, this.attach);
     await energyMadeEasyPage.performUrlValidationsOnNewTab()
+});
+
+Then('user validates whether the clicked gas plan link contains the expected domain', async function () {
+    await this.pricingPage.verifyLinkDestination()
 });
 
 Then('then user validates the origin logo in the new page', async function () {
