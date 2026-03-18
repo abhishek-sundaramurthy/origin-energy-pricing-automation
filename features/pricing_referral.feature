@@ -8,7 +8,7 @@ Feature: Origin Energy Pricing and Referral Flow
     Given I navigate to the Origin Energy pricing page
 
   Scenario: Verify gas plan display and external referral hand-off
-    When I search for the address "12 Smith Street, Surry Hills, NSW 2010"
+    When User searches for the address "12 Smith Street, Surry Hills, NSW 2010" by entering and selecting the address from the dropdown
     And I validate whether plan list is displayed
     And I uncheck the "Electricity" filter
     And I should see that Gas plans are still displayed

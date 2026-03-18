@@ -2,6 +2,7 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export class PricingPage {
     readonly page: Page;
+    readonly addressTab:Locator;
     readonly addressInput: Locator;
     readonly addressSuggestion: Locator;
     readonly planTable: Locator;
@@ -11,9 +12,10 @@ export class PricingPage {
     readonly planLink: Locator;
     readonly attach: any;
 
-    constructor(page: Page,attach : any) {
+    constructor(page: Page,attach : any,address) {
         this.page = page;
         this.attach = attach;
+        this.addressTab = page.getByRole('tab', { name: 'Address' });
         this.addressInput = page.getByRole('combobox', { name: /Your address/i });
         this.addressSuggestion = page.getByRole('option', { name: '12 Smith Street, Surry Hills NSW 2010', exact: false });
         this.planTable = page.locator('table[data-id="plan-info-table-desktop"]');
@@ -31,6 +33,8 @@ export class PricingPage {
 
     async searchAddress(address: string) {
         try{
+            await this.addressTab.waitFor();
+            await expect(this.addressTab).toBeVisible();
             await this.addressInput.fill(address);
             await this.addressSuggestion.waitFor({ state: 'visible' });
             await this.addressSuggestion.click();
