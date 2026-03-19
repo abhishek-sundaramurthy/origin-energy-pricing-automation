@@ -16,13 +16,13 @@ A BDD test automation suite (Cucumber + Playwright + TypeScript) that validates 
 
 ## Files structure & locations
 - Features:
-    - src/tests/features/pricing_referral.feature — Gherkin scenarios for pricing & referral flows
+    - src/tests/features/pricing_referral.feature — Gherkin scenarios for pricing,referral and network mocking flows
 - Step definitions:
     - src/tests/steps/pricing_steps.ts — Maps Gherkin steps to test actions
 - Hooks / lifecycle:
     - src/tests/hooks/hooks.ts — Playwright/browser setup, teardown, screenshots on failure
 - Page objects:
-    - src/pages/pricingPage.ts — Pricing page interactions (search, filters, select plan)
+    - src/pages/pricingPage.ts — Pricing page interactions (search, checkbox, select plan)
     - src/pages/energyMadeEasyPage.ts — External referral page verifications
 - Helpers:
     - src/helpers/browser_helper.ts — Browser launch / Playwright options (invokeBrowser)
