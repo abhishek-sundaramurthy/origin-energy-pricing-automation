@@ -22,12 +22,8 @@ export class EnergyMadeEasyPage {
         }
         catch(error){
             await this.attach('❌ FAILURE: Something went wrong with validating the URL',"Logs");
-            // Take a screenshot directly from the Page Object
-            const screenshot = await this.page.screenshot();
-            await this.attach(screenshot, 'image/png');
             throw error;
         }
-        // Example verification: check if URL contains a referral ID or 'origin'
         
     }
 
@@ -41,9 +37,6 @@ export class EnergyMadeEasyPage {
        }
        catch(error){
            await this.attach('❌ FAILURE: Something went wrong with validating the Logo');
-           // Take a screenshot directly from the Page Object
-           const screenshot = await this.page.screenshot();
-           await this.attach(screenshot, 'image/png');
            throw error;
     }
     }

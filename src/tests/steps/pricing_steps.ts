@@ -2,6 +2,7 @@ import { Given, When, Then,setDefaultTimeout } from '@cucumber/cucumber';
 import { EnergyMadeEasyPage} from "../../pages/energyMadeEasyPage";
 import {ENV_SETTINGS} from "../../util/config_env";
 import {loadTestData} from "../../helpers/testdata_helper";
+import { NetworkMock } from "../../helpers/networkmock_helper";
 
 setDefaultTimeout(60 * 1000 * 2)
 
@@ -56,7 +57,8 @@ Then('then user validates the origin logo in the new page', async function () {
 });
 
 When('the server returns a {int} with {string} and {string} for the plan list request', async function (code: number, errormessage: string, message:string) {
-    await this.pricingPage.simulateApiError(loadTestData().pricingPage.planListApiUrl,code,errormessage,message);
+    const networkMock = new NetworkMock(this.page,this.attach)
+    await networkMock.simulateApiError(loadTestData().pricingPage.planListApiUrl,code,errormessage,message);
 });
 
 Then('user should not be able to see any plan List', async function () {

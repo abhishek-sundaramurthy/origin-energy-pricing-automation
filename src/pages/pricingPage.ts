@@ -47,9 +47,6 @@ export class PricingPage {
         }
         catch(error){
             await this.attach('❌ FAILURE: Given Address is not searched successfully');
-            // Take a screenshot directly from the Page Object
-            const screenshot = await this.page.screenshot();
-            await this.attach(screenshot, 'image/png');
             throw error;
         }
 
@@ -66,9 +63,6 @@ export class PricingPage {
         }
         catch(error){
             await this.attach('❌ FAILURE: Table with List of Plans for different energy type is not displayed');
-            // Take a screenshot directly from the Page Object
-            const screenshot = await this.page.screenshot();
-            await this.attach(screenshot, 'image/png');
             throw error;
         }
 
@@ -82,9 +76,6 @@ export class PricingPage {
             }
             catch(error){
                 await this.attach('❌ FAILURE: Something went wrong when unchecking the electricity checkbox');
-                // Take a screenshot directly from the Page Object
-                const screenshot = await this.page.screenshot();
-                await this.attach(screenshot, 'image/png');
                 throw error;
             }
 
@@ -103,9 +94,6 @@ export class PricingPage {
         }
         catch(error){
             await this.attach('❌ FAILURE: Energy Type of Natural Gas were not found or Energy Type of Electricity is present');
-            // Take a screenshot directly from the Page Object
-            const screenshot = await this.page.screenshot();
-            await this.attach(screenshot, 'image/png');
             throw error;
         }
 
@@ -147,16 +135,7 @@ export class PricingPage {
         await this.attach("Selected Plan link have the domain values as expected");
     }
 
-    async simulateApiError(apiurl:string,code:number,errormessage:string,message:string){
-        await this.page.route(apiurl, async (route) => {
-            await route.fulfill({
-                status: code,
-                contentType: 'application/json',
-                body: JSON.stringify({ error: errormessage, message: message })
-            });
-        });
-        await this.attach(`error code : ${code} \nerror: ${errormessage} \nmessage: ${message} `);
-    }
+
 
 
     async checkPlanListNotAvailable() {

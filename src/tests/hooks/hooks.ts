@@ -8,7 +8,6 @@ let testData;
 let browser:Browser;
 
 Before(async function () {
-    // Requirement 4: Resilience - Start a fresh browser for every test
     browser = await invokeBrowser()
     this.context = await browser.newContext();
 
@@ -22,7 +21,7 @@ Before(async function () {
 });
 
 After(async function (scenario) {
-    // Requirement 5: Reporting - Capture screenshot on failure
+    //  Reporting - Capture screenshot on failure
     if (scenario.result?.status === Status.FAILED) {
         const screenshot = await this.page.screenshot();
         this.attach(screenshot, 'image/png');
