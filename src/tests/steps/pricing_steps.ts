@@ -55,8 +55,8 @@ Then('then user validates the origin logo in the new page', async function () {
     await energyMadeEasyPage.closeNewTab()
 });
 
-When('the server returns a error for the plan list request', async function () {
-    await this.pricingPage.simulateApiError(loadTestData().pricingPage.planListApiUrl);
+When('the server returns a {int} with {string} and {string} for the plan list request', async function (code: number, errormessage: string, message:string) {
+    await this.pricingPage.simulateApiError(loadTestData().pricingPage.planListApiUrl,code,errormessage,message);
 });
 
 Then('user should not be able to see any plan List', async function () {

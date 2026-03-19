@@ -148,16 +148,17 @@ export class PricingPage {
         await this.attach("Selected Plan link have the domain values as expected");
     }
 
-    async simulateApiError(apiurl:string){
+    async simulateApiError(apiurl:string,code:number,errormessage:string,message:string){
         await this.page.route(apiurl, async (route) => {
             await route.fulfill({
-                status: 500,
+                status: code,
                 contentType: 'application/json',
-                body: JSON.stringify({ error: "Internal Server Error", message: "Origin Backend is down" })
+                body: JSON.stringify({ error: errormessage, message: message })
             });
         });
-        await this.attach("error: Internal Server Error \n message: Origin Backend is down ");
+        await this.attach(`error code : ${code} \nerror: ${errormessage} \nmessage: ${message} `);
     }
+
 
     async checkPlanListNotAvailable() {
             await expect(this.planTable).not.toBeVisible();

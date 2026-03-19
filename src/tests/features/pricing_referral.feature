@@ -7,6 +7,7 @@ Feature: Origin Energy Pricing and Referral Flow
   Background:
     Given user navigates to the Origin Energy pricing page
 
+  @e2e
   Scenario: Verify the first gas plan link displayed is clicked and validate whether the external referral hand-off is successful
     When user enters the address and selects the address from the dropdown
     And user validates whether the plan list is displayed with both Electricity and Natural Gas checked
@@ -18,11 +19,15 @@ Feature: Origin Energy Pricing and Referral Flow
     And then user validates the url for referral
     And then user validates the origin logo in the new page
 
-
-  Scenario: Verify NetworkMocking using the Plans Search API
+  @apiNetWorkMock
+  Scenario Outline: Verify NetworkMocking using the Plans Search API
     When user enters the address and selects the address from the dropdown
-    And the server returns a error for the plan list request
+    And the server returns a <ErrorCode> with "<ErrorMessage>" and "<OriginMessage>" for the plan list request
     Then user should not be able to see any plan List
+    Examples:
+    |ErrorCode|ErrorMessage|OriginMessage|
+    |500|Internal Server Error|Origin Backend is down|
+    |400|Invalid Address Format| Address is not found|
 
 
 

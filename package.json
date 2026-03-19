@@ -12,6 +12,9 @@
     "test:test": "export ENV=test && npm run test && node report.js",
     "test:prod": "export ENV=prod && npm run test && node report.js",
     "test:dev": "export ENV=dev && npm run test && node report.js",
+    "test:e2e": "export ENV=test && npm run test -- --tags '@e2e' || node report.js",
+    "test:apiNetWorkMock": "export ENV=test && npm run test -- --tags '@apiNetWorkMock' || node report.js",
+    "test:retry": "npx cucumber-js @reports/rerun.txt --require-module ts-node/register --require 'src/tests/**/*.ts' || node report.js",
     "generate:report": "node report.js"
   },
   "repository": {
