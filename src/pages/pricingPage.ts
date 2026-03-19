@@ -124,7 +124,6 @@ export class PricingPage {
                 linkAnchor.click({ force: true }),
             ]);
             const request = await requestPromise;
-            console.log(`Intercepted Request to: ${request.url()}`);
             expect(request.url()).toContain('origin');
             await newPage.waitForLoadState('domcontentloaded');
             await this.attach(`First Gas Link displayed on the table is clicked successfully\n Network Redirect is checked to see whether it contains origin text value`);
