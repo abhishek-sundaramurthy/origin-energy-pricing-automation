@@ -27,7 +27,7 @@ Feature: Origin Energy Pricing and Referral Flow
     Examples:
     |ErrorCode|ErrorMessage|OriginMessage|
     |500|Internal Server Error|Origin Backend is down|
-    |400|Invalid Address Format| Address is not found|
+    |400|Bad Request Error| Invalid Address|
 
 
 

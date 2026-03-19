@@ -120,7 +120,7 @@ export class PricingPage {
         try {
             await linkAnchor.scrollIntoViewIfNeeded();
             const [newPage] = await Promise.all([
-                this.page.context().waitForEvent('page', { timeout: 45000 }), // Increased timeout
+                this.page.context().waitForEvent('page'),
                 linkAnchor.click({ force: true }),
             ]);
             const request = await requestPromise;
